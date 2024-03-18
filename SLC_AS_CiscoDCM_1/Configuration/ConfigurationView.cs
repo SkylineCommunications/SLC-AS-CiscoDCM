@@ -13,10 +13,13 @@ namespace SLC_AS_CiscoDCM_1.Configuration
     {
         public readonly TextBox Username;
         public readonly PasswordBox Password;
+        public readonly TextBox ElementName;
+        public readonly TextBox ElementIp;
         private readonly Label username;
         private readonly Label password;
         private readonly Label elementName;
         private readonly Label elementIp;
+        private readonly Button next;
 
         public ConfigurationView(Engine engine) : base(engine)
         {
@@ -41,17 +44,33 @@ namespace SLC_AS_CiscoDCM_1.Configuration
                 Text = "Element IP: ",
             };
 
+            next = new Button("Next")
+            {
+                
+            };
+
+            next.Pressed += Next_Pressed;
+
             Password = new PasswordBox(true);
             SetupLayout();
+        }
+
+        private void Next_Pressed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void SetupLayout()
         {
             AddWidget(username, 0, 0);
+            AddWidget(Username, 0, 1);
             AddWidget(password, 1, 0);
             AddWidget(Password, 1, 1);
             AddWidget(elementName, 2, 0);
+            AddWidget(ElementName, 2, 1);
             AddWidget(elementIp, 3, 0);
+            AddWidget(ElementIp, 3, 1);
+            AddWidget(next, 4, 0, 0, 2);
         }
     }
 }
