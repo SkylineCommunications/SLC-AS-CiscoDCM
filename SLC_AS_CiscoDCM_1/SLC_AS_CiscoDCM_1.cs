@@ -55,9 +55,15 @@ namespace SLC_AS_CiscoDCM_1
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Text;
-	using Skyline.DataMiner.Automation;
+    using CiscoDcmBulkProcessing.Handling;
+    using Skyline.DataMiner.Automation;
     using Skyline.DataMiner.Core.DataMinerSystem.Automation;
     using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+    using SLC_AS_CiscoDCM_1.Configuration;
+    using SLC_AS_CiscoDCM_1.FirstChoices;
+    using SLC_AS_CiscoDCM_1.GetBoardInfo;
+    using SLC_AS_CiscoDCM_1.GetInputTs;
+    using SLC_AS_CiscoDCM_1.Input;
 
     /// <summary>
     /// Represents a DataMiner Automation script.
@@ -68,9 +74,69 @@ namespace SLC_AS_CiscoDCM_1
 		/// The script entry point.
 		/// </summary>
 		/// <param name="engine">Link with SLAutomation process.</param>
-		public void Run(IEngine engine)
-		{
-			var controller = new InteractiveController(engine);
+		public void Run(Engine engine)
+        {
+            // engine.ShowUI();
+            try
+            {
+                ApiProcessing dcm;
+				Element element;
+                var controller = new InteractiveController(engine);
+				var configurationView = new ConfigurationView(engine);
+				var configurationModel = new ConfigurationModel();
+				var configurationPresenter = new ConfigurationPresenter(engine, configurationView, configurationModel);
+				var firstChoicesView = new FirstChoicesView(engine);
+				var firstChoicesPresenter = new FirstChoicesPresenter(engine, firstChoicesView);
+				var getBoardInfoView = new GetBoardInfoView(engine);
+				var getBoardInfoPresenter = new GetBoardInfoPresenter(engine, getBoardInfoView);
+				var inputView = new InputView(engine);
+				var inputPresenter = new InputPresenter(engine, inputView);
+				var getInputTsView = new GetInputTsView(engine);
+				var getInputTsPresenter = new GetInputTsPresenter(engine, getInputTsView);
+				configurationPresenter.Next += (sender, e) =>
+				{
+					configurationView.SetupLayout();
+					element = e;
+					dcm = new ApiProcessing(engine, configurationView.Username.Text, configurationView.Password.Password, "API Dummy", "API Dummy");
+					if (!dcm.ConnectToApi(configurationView.ElementName.Text, configurationView.ElementIp.Text))
+					{
+						engine.ExitFail("Couldn't connect with the Cisco DCM device");
+					}
+
+					getBoardInfoPresenter.Update(dcm, element);
+					controller.ShowDialog(firstChoicesView);
+				};
+				firstChoicesPresenter.GetBoardInfo += (sender, e) =>
+				{
+					controller.ShowDialog(getBoardInfoView);
+				};
+                firstChoicesPresenter.Input += (sender, e) =>
+                {
+                    controller.ShowDialog(inputView);
+                };
+                firstChoicesPresenter.Back += (sender, e) =>
+				{
+					controller.ShowDialog(configurationView);
+				};
+				inputPresenter.GetInputTs += (sender, e) =>
+				{
+					controller.ShowDialog(getInputTsView);
+				};
+				inputPresenter.Back += (sender, e) =>
+				{
+					controller.ShowDialog(firstChoicesView);
+				};
+				getInputTsPresenter.Back += (sender, e) =>
+				{
+					controller.ShowDialog(inputView);
+				};
+
+				controller.Run(configurationView);
+			}
+			catch (Exception ex)
+            {
+                engine.GenerateInformation("Error: " + ex.StackTrace);
+            }
 		}
 	}
 }
