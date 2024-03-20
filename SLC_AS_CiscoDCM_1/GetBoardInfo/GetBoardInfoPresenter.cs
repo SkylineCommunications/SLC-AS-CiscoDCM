@@ -1,5 +1,4 @@
-﻿using CiscoDcmBulkProcessing.Handling;
-using Skyline.DataMiner.Automation;
+﻿using Skyline.DataMiner.Automation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

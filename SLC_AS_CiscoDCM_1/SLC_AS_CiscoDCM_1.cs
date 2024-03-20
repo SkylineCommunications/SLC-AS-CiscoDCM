@@ -55,7 +55,7 @@ namespace SLC_AS_CiscoDCM_1
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Text;
-    using CiscoDcmBulkProcessing.Handling;
+    using Skyline.DataMiner.Utils.CiscoDCM.Handling;
     using Skyline.DataMiner.Automation;
     using Skyline.DataMiner.Core.DataMinerSystem.Automation;
     using Skyline.DataMiner.Utils.InteractiveAutomationScript;
