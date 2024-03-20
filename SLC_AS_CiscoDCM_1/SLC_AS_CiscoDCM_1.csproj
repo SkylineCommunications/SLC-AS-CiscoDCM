@@ -18,9 +18,9 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Skyline.DataMiner.Core.DataMinerSystem.Automation" Version="1.1.1.5" />
-		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.1.11" />
+		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.1.12" />
+		<PackageReference Include="Skyline.DataMiner.Utils.CiscoDCM" Version="1.0.0.2" />
 		<PackageReference Include="Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit" Version="5.0.1" />
-		<PackageReference Include="SLC.CLib.CiscoDcm.BulkProcessing" Version="1.0.9534.1-DEVFLoweringMinimumRequiredDataminerVersion.1" />
 	</ItemGroup>
 	<ProjectExtensions>
 	    <VisualStudio><UserProperties DisLinkedXmlFile="..\SLC_AS_CiscoDCM.xml" DisLinkId="1" DisProjectType="automationScriptProject" /></VisualStudio>
