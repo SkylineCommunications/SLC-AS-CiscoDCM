@@ -88,7 +88,7 @@ namespace SLC_AS_CiscoDCM_1
 				var firstChoicesView = new FirstChoicesView(engine);
 				var firstChoicesPresenter = new FirstChoicesPresenter(engine, firstChoicesView);
 				var getBoardInfoView = new GetBoardInfoView(engine);
-				var getBoardInfoPresenter = new GetBoardInfoPresenter(engine, getBoardInfoView);
+				var getBoardInfoPresenter = new GetBoardInfoController(engine, getBoardInfoView);
 				var inputView = new InputView(engine);
 				var inputPresenter = new InputPresenter(engine, inputView);
 				var getInputTsView = new GetInputTsView(engine);
@@ -117,6 +117,10 @@ namespace SLC_AS_CiscoDCM_1
                 firstChoicesPresenter.Back += (sender, e) =>
 				{
 					controller.ShowDialog(configurationView);
+				};
+				getBoardInfoPresenter.Back += (sender, e) =>
+				{
+					controller.ShowDialog(firstChoicesView);
 				};
 				inputPresenter.GetInputTs += (sender, e) =>
 				{

@@ -1,10 +1,5 @@
 ﻿using Skyline.DataMiner.Utils.CiscoDCM.Handling;
 using Skyline.DataMiner.Automation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SLC_AS_CiscoDCM_1
 {

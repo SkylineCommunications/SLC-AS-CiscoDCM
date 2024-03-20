@@ -22,6 +22,11 @@
 		<PackageReference Include="Skyline.DataMiner.Utils.CiscoDCM" Version="1.0.0.2" />
 		<PackageReference Include="Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit" Version="5.0.1" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="SL_IIOPNet1910_CiscoDCM_20180124">
+	    <HintPath>..\Dlls\SL_IIOPNet1910_CiscoDCM_20180124.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 	<ProjectExtensions>
 	    <VisualStudio><UserProperties DisLinkedXmlFile="..\SLC_AS_CiscoDCM.xml" DisLinkId="1" DisProjectType="automationScriptProject" /></VisualStudio>
 	</ProjectExtensions>
