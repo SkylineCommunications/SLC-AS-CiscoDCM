@@ -51,10 +51,10 @@ DATE		VERSION		AUTHOR			COMMENTS
 
 namespace SLC_AS_CiscoDCM_1
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Globalization;
-	using System.Text;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
     using Skyline.DataMiner.Utils.CiscoDCM.Handling;
     using Skyline.DataMiner.Automation;
     using Skyline.DataMiner.Core.DataMinerSystem.Automation;
@@ -69,78 +69,84 @@ namespace SLC_AS_CiscoDCM_1
     /// Represents a DataMiner Automation script.
     /// </summary>
     public class Script
-	{
-		/// <summary>
-		/// The script entry point.
-		/// </summary>
-		/// <param name="engine">Link with SLAutomation process.</param>
-		public void Run(Engine engine)
+    {
+        /// <summary>
+        /// The script entry point.
+        /// </summary>
+        /// <param name="engine">Link with SLAutomation process.</param>
+        public void Run(Engine engine)
         {
             // engine.ShowUI();
             try
             {
                 ApiProcessing dcm;
-				Element element;
+                Element element;
+                CiscoDcmModel model = new CiscoDcmModel();
                 var controller = new InteractiveController(engine);
-				var configurationView = new ConfigurationView(engine);
-				var configurationModel = new ConfigurationModel();
-				var configurationPresenter = new ConfigurationPresenter(engine, configurationView, configurationModel);
-				var firstChoicesView = new FirstChoicesView(engine);
-				var firstChoicesPresenter = new FirstChoicesPresenter(engine, firstChoicesView);
-				var getBoardInfoView = new GetBoardInfoView(engine);
-				var getBoardInfoPresenter = new GetBoardInfoController(engine, getBoardInfoView);
-				var inputView = new InputView(engine);
-				var inputPresenter = new InputPresenter(engine, inputView);
-				var getInputTsView = new GetInputTsView(engine);
-				var getInputTsPresenter = new GetInputTsPresenter(engine, getInputTsView);
-				configurationPresenter.Next += (sender, e) =>
-				{
-					configurationView.SetupLayout();
-					element = e;
-					dcm = new ApiProcessing(engine, configurationView.Username.Text, configurationView.Password.Password, "API Dummy", "API Dummy");
-					if (!dcm.ConnectToApi(configurationView.ElementName.Text, configurationView.ElementIp.Text))
-					{
-						engine.ExitFail("Couldn't connect with the Cisco DCM device");
-					}
+                var configurationView = new ConfigurationView(engine);
+                var configurationModel = new ConfigurationModel();
+                var configurationPresenter = new ConfigurationPresenter(engine, configurationView, configurationModel);
+                var firstChoicesView = new FirstChoicesView(engine);
+                var firstChoicesPresenter = new FirstChoicesPresenter(engine, firstChoicesView);
+                var getBoardInfoView = new GetBoardInfoView(engine);
+                var getBoardInfoController = new GetBoardInfoController(engine, getBoardInfoView);
+                var inputView = new InputView(engine);
+                var inputPresenter = new InputPresenter(engine, inputView);
+                var getInputTsView = new GetInputTsView(engine);
+                var getInputTsController = new GetInputTsController(engine, getInputTsView, model);
+                configurationPresenter.Next += (sender, e) =>
+                {
+                    configurationView.SetupLayout();
+                    element = e;
+                    dcm = new ApiProcessing(engine, configurationView.Username.Text, configurationView.Password.Password, "API Dummy", "API Dummy");
+                    if (!dcm.ConnectToApi(configurationView.ElementName.Text, configurationView.ElementIp.Text))
+                    {
+                        engine.ExitFail("Couldn't connect with the Cisco DCM device");
+                    }
 
-					getBoardInfoPresenter.Update(dcm, element);
-					controller.ShowDialog(firstChoicesView);
-				};
-				firstChoicesPresenter.GetBoardInfo += (sender, e) =>
-				{
-					controller.ShowDialog(getBoardInfoView);
-				};
+                    getBoardInfoController.Update(dcm, element);
+                    getInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
+                    controller.ShowDialog(firstChoicesView);
+                };
+                firstChoicesPresenter.GetBoardInfo += (sender, e) =>
+                {
+                    controller.ShowDialog(getBoardInfoView);
+                };
                 firstChoicesPresenter.Input += (sender, e) =>
                 {
                     controller.ShowDialog(inputView);
                 };
                 firstChoicesPresenter.Back += (sender, e) =>
-				{
-					controller.ShowDialog(configurationView);
-				};
-				getBoardInfoPresenter.Back += (sender, e) =>
-				{
-					controller.ShowDialog(firstChoicesView);
-				};
-				inputPresenter.GetInputTs += (sender, e) =>
-				{
-					controller.ShowDialog(getInputTsView);
-				};
-				inputPresenter.Back += (sender, e) =>
-				{
-					controller.ShowDialog(firstChoicesView);
-				};
-				getInputTsPresenter.Back += (sender, e) =>
-				{
-					controller.ShowDialog(inputView);
-				};
+                {
+                    controller.ShowDialog(configurationView);
+                };
+                getBoardInfoController.GetData += (sender, e) =>
+                {
+                    model.BoardInfo = e;
+                };
+                getBoardInfoController.Back += (sender, e) =>
+                {
+                    controller.ShowDialog(firstChoicesView);
+                };
+                inputPresenter.GetInputTs += (sender, e) =>
+                {
+                    controller.ShowDialog(getInputTsView);
+                };
+                inputPresenter.Back += (sender, e) =>
+                {
+                    controller.ShowDialog(firstChoicesView);
+                };
+                getInputTsController.Back += (sender, e) =>
+                {
+                    controller.ShowDialog(inputView);
+                };
 
-				controller.Run(configurationView);
-			}
-			catch (Exception ex)
+                controller.Run(configurationView);
+            }
+            catch (Exception ex)
             {
                 engine.GenerateInformation("Error: " + ex.StackTrace);
             }
-		}
-	}
+        }
+    }
 }

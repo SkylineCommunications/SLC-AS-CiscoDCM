@@ -12,9 +12,9 @@ namespace SLC_AS_CiscoDCM_1.GetBoardInfo
     {
         public readonly Button GetData = new Button("Get Data") { Width = 150 };
         public readonly Button Back = new Button("Back") { Width = 150 };
-        public readonly Label Result = new Label();
-        public readonly Label TimeElapsed = new Label();
-        public readonly Label AmountOfBoards = new Label();
+        public readonly Label Result = new Label(String.Empty);
+        public readonly Label TimeElapsed = new Label(String.Empty);
+        public readonly Label AmountOfBoards = new Label(String.Empty);
         private readonly Label _timeElapsed = new Label("Time elapsed: ");
         private readonly Label _amountOfBoards = new Label("Amount of boards: ");
 

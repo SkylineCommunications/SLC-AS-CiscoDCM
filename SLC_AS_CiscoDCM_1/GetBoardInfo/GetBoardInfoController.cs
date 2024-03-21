@@ -22,7 +22,7 @@ namespace SLC_AS_CiscoDCM_1.GetBoardInfo
             _getBoardInfoView.Back.Pressed += Back_Pressed;
         }
 
-        public event EventHandler<EventArgs> GetData;
+        public event EventHandler<List<DCM.DeviceControl_package.BoardInfo_V2_t>> GetData;
         public event EventHandler<EventArgs> Back;
 
         private void GetData_Pressed(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace SLC_AS_CiscoDCM_1.GetBoardInfo
                 _getBoardInfoView.Result.Text = "Failed";
             }
 
-            GetData?.Invoke(this, EventArgs.Empty);
+            GetData?.Invoke(this, boardInfo);
         }
 
         private void Back_Pressed(object sender, EventArgs e)

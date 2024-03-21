@@ -12,6 +12,11 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
     {
         public readonly Button Back = new Button("Back") { Width = 150 };
         public readonly Button GetData = new Button("Get Data") { Width = 150 };
+        public readonly Label Result = new Label(String.Empty);
+        public readonly Label TimeElapsed = new Label(String.Empty);
+        public readonly Label NumberOfInputTs = new Label(String.Empty);
+        private readonly Label _timeElapsed = new Label("Time elapsed: ");
+        private readonly Label _numberOfInputTs = new Label("Number of Input TS: ");
 
         public GetInputTsView(IEngine engine) : base (engine)
         {
@@ -23,7 +28,12 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
         {
             Clear();
             AddWidget(GetData, 0, 0);
-            AddWidget(Back, 1, 0);
+            AddWidget(Result, 1, 0);
+            AddWidget(_timeElapsed, 2, 0);
+            AddWidget(TimeElapsed, 2, 1);
+            AddWidget(_numberOfInputTs, 3, 0);
+            AddWidget(NumberOfInputTs, 3, 1);
+            AddWidget(Back, 3, 0);
         }
     }
 }
