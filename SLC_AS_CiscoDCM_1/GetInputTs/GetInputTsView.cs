@@ -33,7 +33,7 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
             AddWidget(TimeElapsed, 2, 1);
             AddWidget(_numberOfInputTs, 3, 0);
             AddWidget(NumberOfInputTs, 3, 1);
-            AddWidget(Back, 3, 0);
+            AddWidget(Back, 4, 0);
         }
     }
 }
