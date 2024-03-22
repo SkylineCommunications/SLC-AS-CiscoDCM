@@ -31,24 +31,31 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
 
         private void GetData_Pressed(object sender, EventArgs e)
         {
-            _ciscoDcmModel.AllInputTs.Clear();
-            GetBoardInfo(_ciscoDcmModel, _getInputTsView);
-
-            Stopwatch sw = Stopwatch.StartNew();
-            foreach (var board in _ciscoDcmModel.BoardInfo)
+            try
             {
-                ApiProcessing.DcmHelper.GetInputTSs(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_InputTS_List_t inputTsList);
-                if (inputTsList.IPS_InputTS_t.Length > 0)
-                {
-                    _ciscoDcmModel.AllInputTs.AddRange(inputTsList.IPS_InputTS_t);
-                }
-            }
+                _ciscoDcmModel.AllInputTs.Clear();
+                GetBoardInfo(_ciscoDcmModel, _getInputTsView);
 
-            sw.Stop();
-            _getInputTsView.Result.Text = "Success";
-            _getInputTsView.TimeElapsed.Text = sw.Elapsed.TotalSeconds + " s";
-            _getInputTsView.NumberOfInputTs.Text = _ciscoDcmModel.AllInputTs.Count.ToString();
-            GetData?.Invoke(this, EventArgs.Empty);
+                Stopwatch sw = Stopwatch.StartNew();
+                foreach (var board in _ciscoDcmModel.BoardInfo)
+                {
+                    ApiProcessing.DcmHelper.GetInputTSs(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_InputTS_List_t inputTsList);
+                    if (inputTsList.IPS_InputTS_t.Length > 0)
+                    {
+                        _ciscoDcmModel.AllInputTs.AddRange(inputTsList.IPS_InputTS_t);
+                    }
+                }
+
+                sw.Stop();
+                _getInputTsView.Result.Text = "Success";
+                _getInputTsView.TimeElapsed.Text = sw.Elapsed.TotalSeconds + " s";
+                _getInputTsView.NumberOfInputTs.Text = _ciscoDcmModel.AllInputTs.Count.ToString();
+                GetData?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                _engine.GenerateInformation(ex.Message + " " + ex.StackTrace);
+            }
         }
 
         private void Back_Pressed(object sender, EventArgs e)
