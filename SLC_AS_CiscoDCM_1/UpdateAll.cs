@@ -45,12 +45,15 @@ namespace SLC_AS_CiscoDCM_1
         internal void GetAllInputTs(CiscoDcmModel ciscoDcmModel, IView view)
         {
             GetBoardInfo(ciscoDcmModel, view);
-            foreach (var board in ciscoDcmModel.BoardInfo)
+            if (ciscoDcmModel.AllInputTs.Count() == 0)
             {
-                ApiProcessing.DcmHelper.GetInputTSs(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_InputTS_List_t inputTsList);
-                if (inputTsList.IPS_InputTS_t.Length > 0)
+                foreach (var board in ciscoDcmModel.BoardInfo)
                 {
-                    ciscoDcmModel.AllInputTs.AddRange(inputTsList.IPS_InputTS_t);
+                    ApiProcessing.DcmHelper.GetInputTSs(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_InputTS_List_t inputTsList);
+                    if (inputTsList.IPS_InputTS_t.Length > 0)
+                    {
+                        ciscoDcmModel.AllInputTs.AddRange(inputTsList.IPS_InputTS_t);
+                    }
                 }
             }
         }
