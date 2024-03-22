@@ -34,7 +34,7 @@ namespace SLC_AS_CiscoDCM_1.GetActiveInputTs
         }
 
 
-        Label IView.Result
+        public Label Result
         {
             get
             {
