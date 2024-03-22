@@ -1,5 +1,7 @@
-﻿using Skyline.DataMiner.Automation;
+﻿using DCM.DeviceControl_package;
+using Skyline.DataMiner.Automation;
 using Skyline.DataMiner.Utils.CiscoDCM.Handling;
+using SLC_AS_CiscoDCM_1.GetActiveInputTs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,21 @@ namespace SLC_AS_CiscoDCM_1
             Username = username;
             Password = password;
             Ip = ip;
+        }
+
+        internal void GetBoardInfo(CiscoDcmModel ciscoDcmModel, IView view)
+        {
+            if (ciscoDcmModel.BoardInfo.Count() == 0)
+            {
+                var success = Dcm.GetBoardInfo(Element, out List<BoardInfo_V2_t> boardInfo);
+                if (!success)
+                {
+                    view.Result.Text = "Failed";
+                    return;
+                }
+
+                ciscoDcmModel.BoardInfo = boardInfo;
+            }
         }
     }
 }

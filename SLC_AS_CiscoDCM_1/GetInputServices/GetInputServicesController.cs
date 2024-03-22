@@ -1,4 +1,5 @@
 ﻿using Skyline.DataMiner.Automation;
+using Skyline.DataMiner.Utils.CiscoDCM.Handling;
 using SLC_AS_CiscoDCM_1.GetInputTs;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,10 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
             }
 
             Stopwatch sw = Stopwatch.StartNew();
+            foreach (var board in _ciscoDcmModel.BoardInfo)
+            {
+                ApiProcessing.DcmHelper.GetInputServices(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_ServiceIn_List_t serviceList);
+            }
             Dcm.GetAllInputServices(Element, Ip, _ciscoDcmModel.BoardInfo.Select(x => Convert.ToString(x.BoardNumber)).ToList(), out Dictionary<string, DCM.DeviceControl_package.IPS_Service_In_t> inputServices);
             sw.Stop();
 

@@ -32,18 +32,7 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
         private void GetData_Pressed(object sender, EventArgs e)
         {
             _ciscoDcmModel.AllInputTs.Clear();
-            if (_ciscoDcmModel.BoardInfo == null || _ciscoDcmModel.BoardInfo.Count() == 0)
-            {
-                var success = Dcm.GetBoardInfo(Element, out List<DCM.DeviceControl_package.BoardInfo_V2_t> boardInfo);
-                if (!success)
-                {
-                    _engine.GenerateInformation("Get Board Info Failed. Element is null: " + (Element == null));
-                    _getInputTsView.Result.Text = "Failed";
-                    return;
-                }
-
-                _ciscoDcmModel.BoardInfo = boardInfo;
-            }
+            GetBoardInfo(_ciscoDcmModel, _getInputTsView);
 
             Stopwatch sw = Stopwatch.StartNew();
             foreach (var board in _ciscoDcmModel.BoardInfo)

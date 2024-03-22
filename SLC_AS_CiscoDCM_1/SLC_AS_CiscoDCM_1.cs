@@ -65,6 +65,7 @@ namespace SLC_AS_CiscoDCM_1
     using SLC_AS_CiscoDCM_1.GetInputTs;
     using SLC_AS_CiscoDCM_1.Input;
     using SLC_AS_CiscoDCM_1.GetInputServices;
+    using SLC_AS_CiscoDCM_1.GetActiveInputTs;
 
     /// <summary>
     /// Represents a DataMiner Automation script.
@@ -97,6 +98,8 @@ namespace SLC_AS_CiscoDCM_1
                 var getInputTsController = new GetInputTsController(engine, getInputTsView, model);
                 var getInputServicesView = new GetInputServicesView(engine);
                 var getInputServicesController = new GetInputServicesController(engine, getInputServicesView, model);
+                var getActiveInputTsView = new GetActiveInputTsView(engine);
+                var getActiveInputTsController = new GetActiveInputTsController(engine, getActiveInputTsView, model);
                 configurationPresenter.Next += (sender, e) =>
                 {
                     configurationView.SetupLayout();
@@ -136,6 +139,10 @@ namespace SLC_AS_CiscoDCM_1
                 {
                     controller.ShowDialog(getInputTsView);
                 };
+                inputPresenter.GetActiveInputTs += (sender, e) =>
+                {
+                    controller.ShowDialog(getActiveInputTsView);
+                };
                 inputPresenter.GetInputServices += (sender, e) =>
                 {
                     controller.ShowDialog(getInputServicesView);
@@ -149,6 +156,10 @@ namespace SLC_AS_CiscoDCM_1
                     controller.ShowDialog(inputView);
                 };
                 getInputServicesController.Back += (sender, e) =>
+                {
+                    controller.ShowDialog(inputView);
+                };
+                getActiveInputTsController.Back += (sender, e) =>
                 {
                     controller.ShowDialog(inputView);
                 };
