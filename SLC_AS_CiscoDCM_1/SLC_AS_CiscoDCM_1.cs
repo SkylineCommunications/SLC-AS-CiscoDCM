@@ -112,6 +112,7 @@ namespace SLC_AS_CiscoDCM_1
 
                     getBoardInfoController.Update(dcm, element);
                     getInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
+                    getActiveInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
                     getInputServicesController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
                     controller.ShowDialog(firstChoicesView);
                 };
