@@ -16,16 +16,24 @@ namespace SLC_AS_CiscoDCM_1.Input
             _inputView = inputView;
 
             _inputView.GetInputTs.Pressed += GetInputTs_Pressed;
+            _inputView.GetInputServices.Pressed += GetInputServices_Pressed;
             _inputView.Back.Pressed += Back_Pressed;
         }
 
         public event EventHandler<EventArgs> GetInputTs;
+
+        public event EventHandler<EventArgs> GetInputServices;
 
         public event EventHandler<EventArgs> Back;
 
         private void GetInputTs_Pressed(object sender, EventArgs e)
         {
             GetInputTs?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void GetInputServices_Pressed(object sender, EventArgs e)
+        {
+            GetInputServices?.Invoke(this, EventArgs.Empty);
         }
 
         private void Back_Pressed(object sender, EventArgs e)

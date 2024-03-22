@@ -64,6 +64,7 @@ namespace SLC_AS_CiscoDCM_1
     using SLC_AS_CiscoDCM_1.GetBoardInfo;
     using SLC_AS_CiscoDCM_1.GetInputTs;
     using SLC_AS_CiscoDCM_1.Input;
+    using SLC_AS_CiscoDCM_1.GetInputServices;
 
     /// <summary>
     /// Represents a DataMiner Automation script.
@@ -94,6 +95,8 @@ namespace SLC_AS_CiscoDCM_1
                 var inputPresenter = new InputPresenter(engine, inputView);
                 var getInputTsView = new GetInputTsView(engine);
                 var getInputTsController = new GetInputTsController(engine, getInputTsView, model);
+                var getInputServicesView = new GetInputServicesView(engine);
+                var getInputServicesController = new GetInputServicesController(engine, getInputServicesView, model);
                 configurationPresenter.Next += (sender, e) =>
                 {
                     configurationView.SetupLayout();
@@ -106,6 +109,7 @@ namespace SLC_AS_CiscoDCM_1
 
                     getBoardInfoController.Update(dcm, element);
                     getInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
+                    getInputServicesController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
                     controller.ShowDialog(firstChoicesView);
                 };
                 firstChoicesPresenter.GetBoardInfo += (sender, e) =>
@@ -132,11 +136,19 @@ namespace SLC_AS_CiscoDCM_1
                 {
                     controller.ShowDialog(getInputTsView);
                 };
+                inputPresenter.GetInputServices += (sender, e) =>
+                {
+                    controller.ShowDialog(getInputServicesView);
+                };
                 inputPresenter.Back += (sender, e) =>
                 {
                     controller.ShowDialog(firstChoicesView);
                 };
                 getInputTsController.Back += (sender, e) =>
+                {
+                    controller.ShowDialog(inputView);
+                };
+                getInputServicesController.Back += (sender, e) =>
                 {
                     controller.ShowDialog(inputView);
                 };
