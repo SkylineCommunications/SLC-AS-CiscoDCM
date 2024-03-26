@@ -40,6 +40,11 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
                 foreach (var board in _ciscoDcmModel.BoardInfo)
                 {
                     ApiProcessing.DcmHelper.GetInputTSs(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_InputTS_List_t inputTsList);
+                    if (inputTsList == null || inputTsList.IPS_InputTS_t == null)
+                    {
+                        continue;
+                    }
+
                     if (inputTsList.IPS_InputTS_t.Length > 0)
                     {
                         _ciscoDcmModel.AllInputTs.AddRange(inputTsList.IPS_InputTS_t);

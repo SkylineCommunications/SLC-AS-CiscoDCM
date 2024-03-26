@@ -39,10 +39,15 @@ namespace SLC_AS_CiscoDCM_1.GetActiveInputTs
             foreach (var inputTs in _ciscoDcmModel.AllInputTs)
             {
                 var temp = inputTs.RefIn.ToIPS_RefTS_t();
-                bool success = Dcm.GetActiveInputTs(Element, temp, 0, out List<TSBackup_ActiveTS_t> activeTsList);
-                if (!success)
+                bool success;
+                List<TSBackup_ActiveTS_t> activeTsList = new List<TSBackup_ActiveTS_t>();
+                if (Element == null)
                 {
-                    _engine.GenerateInformation(temp.PhysRef.BoardNr + " " + temp.PhysRef.PortNr + " " + temp.Ref + " failed.");
+                    success = Dcm.GetActiveInputTs(temp, 0, out activeTsList);
+                }
+                else
+                {
+                    success = Dcm.GetActiveInputTs(Element, temp, 0, out activeTsList);
                 }
 
                 if (activeTsList.Count > 0)

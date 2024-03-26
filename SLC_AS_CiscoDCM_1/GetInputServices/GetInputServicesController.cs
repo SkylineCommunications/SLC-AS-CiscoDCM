@@ -33,31 +33,28 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
         private void GetData_Pressed(object sender, EventArgs e)
         {
             _ciscoDcmModel.AllInputServices.Clear();
-            if (_ciscoDcmModel.BoardInfo == null || _ciscoDcmModel.BoardInfo.Count() == 0)
-            {
-                var success = Dcm.GetBoardInfo(Element, out List<DCM.DeviceControl_package.BoardInfo_V2_t> boardInfo);
-                if (!success)
-                {
-                    _engine.GenerateInformation("Get Board Info Failed. Element is null: " + (Element == null));
-                    _getInputServicesView.Result.Text = "Failed";
-                    return;
-                }
+            GetBoardInfo(_ciscoDcmModel, _getInputServicesView);
 
-                _ciscoDcmModel.BoardInfo = boardInfo;
-            }
-
+            List<ApiProcessing.DcmHelper.IPS_Service_In_t> allServicesList = new List<ApiProcessing.DcmHelper.IPS_Service_In_t>();
             Stopwatch sw = Stopwatch.StartNew();
             foreach (var board in _ciscoDcmModel.BoardInfo)
             {
                 ApiProcessing.DcmHelper.GetInputServices(Username, Password, Ip, Convert.ToUInt16(board.BoardNumber), out ApiProcessing.DcmHelper.IPS_ServiceIn_List_t serviceList);
-            }
-            Dcm.GetAllInputServices(Element, Ip, _ciscoDcmModel.BoardInfo.Select(x => Convert.ToString(x.BoardNumber)).ToList(), out Dictionary<string, DCM.DeviceControl_package.IPS_Service_In_t> inputServices);
-            sw.Stop();
+                if (serviceList == null || serviceList.IPS_Service_In_t == null)
+                {
+                    continue;
+                }
 
-            _ciscoDcmModel.AllInputServices = inputServices;
+                if (serviceList.IPS_Service_In_t.Length > 0)
+                {
+                    _ciscoDcmModel.AllInputServices.AddRange(serviceList.IPS_Service_In_t);
+                }
+            }
+
+            sw.Stop();
             _getInputServicesView.Result.Text = "Success";
             _getInputServicesView.TimeElapsed.Text = sw.Elapsed.TotalSeconds + " s";
-            _getInputServicesView.NumberOfInputServices.Text = inputServices.Count.ToString();
+            _getInputServicesView.NumberOfInputServices.Text = allServicesList.Count.ToString();
         }
 
         private void Back_Pressed(object sender, EventArgs e)

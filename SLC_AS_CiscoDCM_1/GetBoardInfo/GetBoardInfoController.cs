@@ -28,7 +28,17 @@ namespace SLC_AS_CiscoDCM_1.GetBoardInfo
         private void GetData_Pressed(object sender, EventArgs e)
         {
             Stopwatch watch = Stopwatch.StartNew();
-            var success = Dcm.GetBoardInfo(Element, out List<DCM.DeviceControl_package.BoardInfo_V2_t> boardInfo);
+            bool success;
+            List<DCM.DeviceControl_package.BoardInfo_V2_t> boardInfo;
+            if (Element == null)
+            {
+                success = Dcm.GetBoardInfo(out boardInfo);
+            }
+            else
+            {
+                success = Dcm.GetBoardInfo(Element, out boardInfo);
+            }
+
             watch.Stop();
             if (success)
             {

@@ -105,15 +105,25 @@ namespace SLC_AS_CiscoDCM_1
                     configurationView.SetupLayout();
                     element = e;
                     dcm = new ApiProcessing(engine, configurationView.Username.Text, configurationView.Password.Password, "API Dummy", "API Dummy");
-                    if (!dcm.ConnectToApi(configurationView.ElementName.Text, configurationView.ElementIp.Text))
+                    if (element == null)
                     {
-                        engine.ExitFail("Couldn't connect with the Cisco DCM device");
+                        if (!dcm.ConnectToApi(configurationView.DeviceIp.Text))
+                        {
+                            engine.ExitFail("Couldn't connect with the Cisco DCM device");
+                        }
+                    }
+                    else
+                    {
+                        if (!dcm.ConnectToApi(configurationView.ElementName.Text, configurationView.DeviceIp.Text))
+                        {
+                            engine.ExitFail("Couldn't connect with the Cisco DCM device");
+                        }
                     }
 
                     getBoardInfoController.Update(dcm, element);
-                    getInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
-                    getActiveInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
-                    getInputServicesController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.ElementIp.Text);
+                    getInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.DeviceIp.Text);
+                    getActiveInputTsController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.DeviceIp.Text);
+                    getInputServicesController.Update(dcm, element, configurationView.Username.Text, configurationView.Password.Password, configurationView.DeviceIp.Text);
                     controller.ShowDialog(firstChoicesView);
                 };
                 firstChoicesPresenter.GetBoardInfo += (sender, e) =>

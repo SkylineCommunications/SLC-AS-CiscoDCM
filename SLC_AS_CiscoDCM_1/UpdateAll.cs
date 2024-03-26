@@ -31,7 +31,17 @@ namespace SLC_AS_CiscoDCM_1
         {
             if (ciscoDcmModel.BoardInfo.Count() == 0)
             {
-                var success = Dcm.GetBoardInfo(Element, out List<BoardInfo_V2_t> boardInfo);
+                bool success;
+                List<BoardInfo_V2_t> boardInfo;
+                if (Element == null)
+                {
+                    success = Dcm.GetBoardInfo(out boardInfo);
+                }
+                else
+                {
+                    success = Dcm.GetBoardInfo(Element, out boardInfo);
+                }
+
                 if (!success)
                 {
                     view.Result.Text = "Failed";

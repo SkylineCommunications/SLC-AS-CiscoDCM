@@ -33,29 +33,34 @@ namespace SLC_AS_CiscoDCM_1.Configuration
             if (String.IsNullOrWhiteSpace(_configurationView.Username.Text) ||
                 String.IsNullOrWhiteSpace(_configurationView.Password.Password) ||
                 String.IsNullOrWhiteSpace(_configurationView.ElementName.Text) ||
-                String.IsNullOrWhiteSpace(_configurationView.ElementIp.Text))
+                String.IsNullOrWhiteSpace(_configurationView.DeviceIp.Text))
             {
                 _configurationView.showFieldsNotCorrect = true;
                 _configurationView.SetupLayout();
                 return;
             }
 
-            var element = _engine.FindElement(_configurationView.ElementName.Text);
-            if (element == null)
+            if (!String.IsNullOrWhiteSpace(_configurationView.ElementName.Text))
             {
-                _configurationView.showElementNotFound = true;
-                _configurationView.SetupLayout();
-                return;
+                var element = _engine.FindElement(_configurationView.ElementName.Text);
+                if (element == null)
+                {
+                    _configurationView.showElementNotFound = true;
+                    _configurationView.SetupLayout();
+                    return;
+                }
+
+                if (!element.PollingIP.Contains(_configurationView.DeviceIp.Text))
+                {
+                    _configurationView.showElementIpDoesntMatch = true;
+                    _configurationView.SetupLayout();
+                    return;
+                }
+
+                Next?.Invoke(this, element);
             }
 
-            if (!element.PollingIP.Contains(_configurationView.ElementIp.Text))
-            {
-                _configurationView.showElementIpDoesntMatch = true;
-                _configurationView.SetupLayout();
-                return;
-            }
-
-            Next?.Invoke(this, element);
+            Next?.Invoke(this, null);
         }
     }
 }
