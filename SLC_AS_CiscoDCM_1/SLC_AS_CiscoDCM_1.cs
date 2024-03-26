@@ -97,9 +97,9 @@ namespace SLC_AS_CiscoDCM_1
                 var getInputTsView = new GetInputTsView(engine);
                 var getInputTsController = new GetInputTsController(engine, getInputTsView, model);
                 var getInputServicesView = new GetInputServicesView(engine);
-                var getInputServicesController = new GetInputServicesController(engine, getInputServicesView, model);
+                var getInputServicesController = new GetInputServicesController(getInputServicesView, model);
                 var getActiveInputTsView = new GetActiveInputTsView(engine);
-                var getActiveInputTsController = new GetActiveInputTsController(engine, getActiveInputTsView, model);
+                var getActiveInputTsController = new GetActiveInputTsController(getActiveInputTsView, model);
                 configurationPresenter.Next += (sender, e) =>
                 {
                     configurationView.SetupLayout();
