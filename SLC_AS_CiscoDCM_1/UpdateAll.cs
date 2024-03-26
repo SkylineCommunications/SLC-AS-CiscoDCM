@@ -12,19 +12,84 @@ namespace SLC_AS_CiscoDCM_1
 {
     public abstract class UpdateAll
     {
-        public ApiProcessing Dcm;
-        public Element Element;
-        public string Username;
-        public string Password;
-        public string Ip;
+        private ApiProcessing _dcm;
+        private Element _element;
+        private string _username;
+        private string _password;
+        private string _ip;
+
+        public ApiProcessing Dcm
+        {
+            get
+            {
+                return _dcm;
+            }
+
+            set
+            {
+                _dcm = value;
+            }
+        }
+
+        public Element Element
+        {
+            get
+            {
+                return _element;
+            }
+
+            set
+            {
+                _element = value;
+            }
+        }
+
+        public string Username
+        {
+            get
+            {
+                return _username;
+            }
+
+            set
+            {
+                _username = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+
+            set
+            {
+                _password = value;
+            }
+        }
+
+        public string Ip
+        {
+            get
+            {
+                return _ip;
+            }
+
+            set
+            {
+                _ip = value;
+            }
+        }
 
         public void Update(ApiProcessing dcm, Element element, string username, string password, string ip)
         {
-            Dcm = dcm;
-            Element = element;
-            Username = username;
-            Password = password;
-            Ip = ip;
+            _dcm = dcm;
+            _element = element;
+            _username = username;
+            _password = password;
+            _ip = ip;
         }
 
         internal void GetBoardInfo(CiscoDcmModel ciscoDcmModel, IView view)

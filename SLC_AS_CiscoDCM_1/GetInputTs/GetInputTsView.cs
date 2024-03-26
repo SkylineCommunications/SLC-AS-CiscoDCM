@@ -16,7 +16,6 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
         public readonly Label NumberOfInputTs = new Label(String.Empty);
         private readonly Label _timeElapsed = new Label("Time elapsed: ");
         private readonly Label _numberOfInputTs = new Label("Number of Input TS: ");
-        private Label _result = new Label(String.Empty);
 
         public GetInputTsView(IEngine engine) : base(engine)
         {
@@ -24,23 +23,13 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
             SetupLayout();
         }
 
-        public Label Result
-        {
-            get
-            {
-                return _result;
-            }
-            set
-            {
-                _result = value;
-            }
-        }
+        public Label Result { get; set; }
 
         public void SetupLayout()
         {
             Clear();
             AddWidget(GetData, 0, 0);
-            AddWidget(_result, 1, 0);
+            AddWidget(Result, 1, 0);
             AddWidget(_timeElapsed, 2, 0);
             AddWidget(TimeElapsed, 2, 1);
             AddWidget(_numberOfInputTs, 3, 0);

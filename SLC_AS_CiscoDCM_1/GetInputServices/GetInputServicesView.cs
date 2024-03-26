@@ -16,7 +16,6 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
         public readonly Label NumberOfInputServices = new Label(String.Empty);
         private readonly Label _timeElapsed = new Label("Time elapsed: ");
         private readonly Label _numberOfInputServices = new Label("Number of Input Services: ");
-        private Label _result = new Label(String.Empty);
 
         public GetInputServicesView(IEngine engine) : base(engine)
         {
@@ -24,24 +23,13 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
             SetupLayout();
         }
 
-        public Label Result
-        {
-            get
-            {
-                return _result;
-            }
-
-            set
-            {
-                _result = value;
-            }
-        }
+        public Label Result { get; set; }
 
         public void SetupLayout()
         {
             Clear();
             AddWidget(GetData, 0, 0);
-            AddWidget(_result, 1, 0);
+            AddWidget(Result, 1, 0);
             AddWidget(_timeElapsed, 2, 0);
             AddWidget(TimeElapsed, 2, 1);
             AddWidget(_numberOfInputServices, 3, 0);
