@@ -12,13 +12,11 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
 {
     public class GetInputServicesController : UpdateAll
     {
-        private readonly IEngine _engine;
         private readonly GetInputServicesView _getInputServicesView;
         private readonly CiscoDcmModel _ciscoDcmModel;
 
-        public GetInputServicesController(IEngine engine, GetInputServicesView getInputServicesView, CiscoDcmModel ciscoDcmModel)
+        public GetInputServicesController(GetInputServicesView getInputServicesView, CiscoDcmModel ciscoDcmModel)
         {
-            _engine = engine;
             _getInputServicesView = getInputServicesView;
             _ciscoDcmModel = ciscoDcmModel;
 
