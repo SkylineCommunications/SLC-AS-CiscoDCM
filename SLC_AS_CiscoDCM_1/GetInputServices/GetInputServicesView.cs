@@ -19,6 +19,7 @@ namespace SLC_AS_CiscoDCM_1.GetInputServices
 
         public GetInputServicesView(IEngine engine) : base(engine)
         {
+            Result = new Label(String.Empty);
             Title = "Get Input Services";
             SetupLayout();
         }

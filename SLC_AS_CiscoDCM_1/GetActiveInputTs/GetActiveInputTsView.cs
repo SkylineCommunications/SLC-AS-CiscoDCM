@@ -20,6 +20,7 @@ namespace SLC_AS_CiscoDCM_1.GetActiveInputTs
 
         public GetActiveInputTsView(IEngine engine) : base(engine)
         {
+            Result = new Label(String.Empty);
             Title = "Get Active Input TS";
             SetupLayout();
         }

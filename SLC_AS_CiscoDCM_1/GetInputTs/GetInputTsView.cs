@@ -19,6 +19,7 @@ namespace SLC_AS_CiscoDCM_1.GetInputTs
 
         public GetInputTsView(IEngine engine) : base(engine)
         {
+            Result = new Label(String.Empty);
             Title = "Get Input TS";
             SetupLayout();
         }
