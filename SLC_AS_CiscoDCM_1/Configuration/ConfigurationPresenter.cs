@@ -32,7 +32,6 @@ namespace SLC_AS_CiscoDCM_1.Configuration
             _configurationView.SetupLayout();
             if (String.IsNullOrWhiteSpace(_configurationView.Username.Text) ||
                 String.IsNullOrWhiteSpace(_configurationView.Password.Password) ||
-                String.IsNullOrWhiteSpace(_configurationView.ElementName.Text) ||
                 String.IsNullOrWhiteSpace(_configurationView.DeviceIp.Text))
             {
                 _configurationView.showFieldsNotCorrect = true;
